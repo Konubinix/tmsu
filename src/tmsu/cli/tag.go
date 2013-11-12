@@ -75,7 +75,10 @@ func tagExec(options Options, args []string) error {
 			return fmt.Errorf("at least one file to tag must be specified")
 		}
 
-		tagPaths(tagNames, paths, recursive)
+		if err := tagPaths(tagNames, paths, recursive); err != nil {
+			return err
+		}
+
 	case options.HasOption("--from"):
 		if len(args) < 1 {
 			return fmt.Errorf("files to tag must be specified")
@@ -97,7 +100,9 @@ func tagExec(options Options, args []string) error {
 		paths := args[0:1]
 		tagNames := args[1:]
 
-		tagPaths(tagNames, paths, recursive)
+		if err := tagPaths(tagNames, paths, recursive); err != nil {
+			return err
+		}
 	}
 
 	return nil
