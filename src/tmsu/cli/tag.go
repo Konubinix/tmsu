@@ -227,8 +227,10 @@ func tagPath(store *storage.Storage, path string, tagIds []uint, recursive bool)
 	if err != nil {
 		return fmt.Errorf("%v: could not get absolute path: %v", path, err)
 	}
-
-	stat, err := os.Stat(path)
+	stat, err := os.Lstat(path)
+	if err != nil {
+		stat, err = os.Stat(path)
+	}
 	if err != nil {
 		switch {
 		case os.IsPermission(err):
