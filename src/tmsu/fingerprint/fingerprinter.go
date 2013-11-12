@@ -23,6 +23,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"regexp"
 )
 
 const sparseFingerprintThreshold = 5 * 1024 * 1024
@@ -34,8 +35,10 @@ func Create(_path string) (Fingerprint, error) {
 	link, _ := os.Readlink(_path)
 	_, file := path.Split(link)
 	fg := strings.TrimSuffix(file, path.Ext(file))
+	sha_regexp := regexp.MustCompile(`--([a-z0-9]+)`)
+	sha := sha_regexp.FindStringSubmatch(fg)[1]
 
-	return Fingerprint(fg), nil
+	return Fingerprint(sha), nil
 }
 
 func createSparseFingerprint(path string, fileSize int64) (Fingerprint, error) {
