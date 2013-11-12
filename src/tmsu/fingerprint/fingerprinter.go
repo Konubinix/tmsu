@@ -20,29 +20,22 @@ package fingerprint
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"fmt"
 	"os"
+	"path"
+	"strings"
 )
 
 const sparseFingerprintThreshold = 5 * 1024 * 1024
 const sparseFingerprintSize = 512 * 1024
 
-func Create(path string) (Fingerprint, error) {
-	stat, err := os.Stat(path)
-	if err != nil {
-		return EMPTY, fmt.Errorf("'%v': could not determine if path is a directory: %v", path, err)
-	}
-	if stat.IsDir() {
-		return EMPTY, nil
-	}
+func Create(_path string) (Fingerprint, error) {
+	// This is a quick hack to test git annex files tagging based on the
+	// name of the file the symlink points to
+	link, _ := os.Readlink(_path)
+	_, file := path.Split(link)
+	fg := strings.TrimSuffix(file, path.Ext(file))
 
-	fileSize := stat.Size()
-
-	if fileSize > sparseFingerprintThreshold {
-		return createSparseFingerprint(path, fileSize)
-	}
-
-	return createFullFingerprint(path)
+	return Fingerprint(fg), nil
 }
 
 func createSparseFingerprint(path string, fileSize int64) (Fingerprint, error) {
