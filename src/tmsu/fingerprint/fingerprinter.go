@@ -35,7 +35,8 @@ const sparseFingerprintThreshold = 5 * 1024 * 1024
 const sparseFingerprintSize = 512 * 1024
 
 func Create(_path string) (Fingerprint, error) {
-	return CreateExternal(_path)
+	res, err := CreateExternal(_path)
+	return res, err
 }
 
 func CreateExternal(path string) (Fingerprint, error) {
@@ -57,7 +58,17 @@ func CreateExternal(path string) (Fingerprint, error) {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
-	return Fingerprint(res), nil
+	// interprete the result
+	var result Fingerprint
+	if res == "internal" {
+		result, err = CreateInternal(path)
+	} else {
+		if res == "nil" {
+			log.Fatal("Could not compute the fingerprint for %s", path)
+		}
+		result = Fingerprint(res)
+	}
+	return result, err
 }
 
 func CreateInternal(path string) (Fingerprint, error) {
