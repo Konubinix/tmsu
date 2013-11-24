@@ -49,7 +49,9 @@ var commands = map[string]*Command{
 	"unmount": &UnmountCommand,
 	"untag":   &UntagCommand,
 	"version": &VersionCommand,
-	"vfs":     &VfsCommand}
+	"vfs":     &VfsCommand,
+	"fingerprint":     &FingerprintCommand,
+}
 
 var globalOptions = Options{Option{"--verbose", "-v", "show verbose messages", false, ""},
 	Option{"--help", "-h", "show help and exit", false, ""},
