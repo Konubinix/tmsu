@@ -21,25 +21,43 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"os"
-	"path"
-	"strings"
-	"regexp"
+	//"path"
+	//"strings"
+	//"regexp"
 	"fmt"
+	// for CreateExternal
+	"os/exec"
+	"log"
+	"bufio"
 )
 
 const sparseFingerprintThreshold = 5 * 1024 * 1024
 const sparseFingerprintSize = 512 * 1024
 
 func Create(_path string) (Fingerprint, error) {
-	// This is a quick hack to test git annex files tagging based on the
-	// name of the file the symlink points to
-	link, _ := os.Readlink(_path)
-	_, file := path.Split(link)
-	fg := strings.TrimSuffix(file, path.Ext(file))
-	sha_regexp := regexp.MustCompile(`--([a-z0-9]+)`)
-	sha := sha_regexp.FindStringSubmatch(fg)[1]
+	return CreateExternal(_path)
+}
 
-	return Fingerprint(sha), nil
+func CreateExternal(path string) (Fingerprint, error) {
+	cmd := exec.Command("tmsu-fingerprint-helper.sh")
+	in, _ := cmd.StdinPipe()
+	out, _ := cmd.StdoutPipe()
+	err := cmd.Start()
+	fmt.Println("test")
+	if err != nil {
+		log.Fatal(err)
+	}
+	scanner := bufio.NewScanner(out)
+	in.Write([]byte(path + "\n"))
+	in.Close()
+	res := ""
+	for scanner.Scan() {
+		res += scanner.Text()
+	}
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return Fingerprint(res), nil
 }
 
 func CreateInternal(path string) (Fingerprint, error) {
