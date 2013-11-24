@@ -24,6 +24,7 @@ import (
 	"path"
 	"strings"
 	"regexp"
+	"fmt"
 )
 
 const sparseFingerprintThreshold = 5 * 1024 * 1024
@@ -39,6 +40,24 @@ func Create(_path string) (Fingerprint, error) {
 	sha := sha_regexp.FindStringSubmatch(fg)[1]
 
 	return Fingerprint(sha), nil
+}
+
+func CreateInternal(path string) (Fingerprint, error) {
+	stat, err := os.Stat(path)
+	if err != nil {
+		return EMPTY, fmt.Errorf("'%v': could not determine if path is a directory: %v", path, err)
+	}
+	if stat.IsDir() {
+		return EMPTY, nil
+	}
+
+	fileSize := stat.Size()
+
+	if fileSize > sparseFingerprintThreshold {
+		return createSparseFingerprint(path, fileSize)
+	}
+
+	return createFullFingerprint(path)
 }
 
 func createSparseFingerprint(path string, fileSize int64) (Fingerprint, error) {
