@@ -50,7 +50,7 @@ var commands = map[string]*Command{
 	"untag":   &UntagCommand,
 	"version": &VersionCommand,
 	"vfs":     &VfsCommand,
-	"fingerprint":     &FingerprintCommand,
+	"dbconfig":     &DBConfigCommand,
 }
 
 var globalOptions = Options{Option{"--verbose", "-v", "show verbose messages", false, ""},
