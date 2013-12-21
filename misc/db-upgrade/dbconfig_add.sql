@@ -1,3 +1,1 @@
-CREATE TABLE dbconfig (
-        fingerprint_command TEXT
-	);
+CREATE TABLE dbconfig ( fingerprint_command TEXT );
