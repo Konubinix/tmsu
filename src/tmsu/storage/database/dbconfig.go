@@ -16,7 +16,7 @@ func (db *Database) DBConfigGetConfig() (common.DBConfig, error) {
 	defer rows.Close()
 	var fingerPrintCommand string
 	if !rows.Next() {
-		log.Fatalf("No dbconfig set yet")
+		fingerPrintCommand = ""
 	}
 	rows.Scan(&fingerPrintCommand)
 	return common.DBConfig{fingerPrintCommand}, nil
