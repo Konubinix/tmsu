@@ -20,14 +20,14 @@ package entities
 import (
 	"path/filepath"
 	"time"
-	"tmsu/fingerprint"
+	"tmsu/common"
 )
 
 type File struct {
 	Id          uint
 	Directory   string
 	Name        string
-	Fingerprint fingerprint.Fingerprint
+	Fingerprint common.Fingerprint
 	ModTime     time.Time
 	Size        int64
 	IsDir       bool

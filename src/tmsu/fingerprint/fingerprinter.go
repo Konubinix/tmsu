@@ -29,7 +29,11 @@ import (
 	"os/exec"
 	"log"
 	"bufio"
+	"tmsu/common"
+	"tmsu/storage"
 )
+
+const EMPTY common.Fingerprint = common.Fingerprint("")
 
 const sparseFingerprintThreshold = 5 * 1024 * 1024
 const sparseFingerprintSize = 512 * 1024
@@ -39,8 +43,8 @@ func Create(_path string) (Fingerprint, error) {
 	return res, err
 }
 
-func CreateExternal(path string) (Fingerprint, error) {
-	cmd := exec.Command("tmsu-fingerprint-helper.sh")
+func CreateExternal(path string, command string) (common.Fingerprint, error) {
+	cmd := exec.Command(command)
 	in, _ := cmd.StdinPipe()
 	out, _ := cmd.StdoutPipe()
 	err := cmd.Start()
@@ -59,19 +63,19 @@ func CreateExternal(path string) (Fingerprint, error) {
 		log.Fatal(err)
 	}
 	// interprete the result
-	var result Fingerprint
+	var result common.Fingerprint
 	if res == "internal" {
 		result, err = CreateInternal(path)
 	} else {
 		if res == "nil" {
 			log.Fatal("Could not compute the fingerprint for %s", path)
 		}
-		result = Fingerprint(res)
+		result = common.Fingerprint(res)
 	}
 	return result, err
 }
 
-func CreateInternal(path string) (Fingerprint, error) {
+func CreateInternal(path string) (common.Fingerprint, error) {
 	stat, err := os.Stat(path)
 	if err != nil {
 		return EMPTY, fmt.Errorf("'%v': could not determine if path is a directory: %v", path, err)
@@ -89,7 +93,7 @@ func CreateInternal(path string) (Fingerprint, error) {
 	return createFullFingerprint(path)
 }
 
-func createSparseFingerprint(path string, fileSize int64) (Fingerprint, error) {
+func createSparseFingerprint(path string, fileSize int64) (common.Fingerprint, error) {
 	buffer := make([]byte, sparseFingerprintSize)
 	hash := sha256.New()
 
@@ -133,10 +137,10 @@ func createSparseFingerprint(path string, fileSize int64) (Fingerprint, error) {
 	sum := hash.Sum(make([]byte, 0, 64))
 	fingerprint := hex.EncodeToString(sum)
 
-	return Fingerprint(fingerprint), nil
+	return common.Fingerprint(fingerprint), nil
 }
 
-func createFullFingerprint(path string) (Fingerprint, error) {
+func createFullFingerprint(path string) (common.Fingerprint, error) {
 	hash := sha256.New()
 
 	file, err := os.Open(path)
@@ -153,7 +157,7 @@ func createFullFingerprint(path string) (Fingerprint, error) {
 	sum := hash.Sum(make([]byte, 0, 64))
 	fingerprint := hex.EncodeToString(sum)
 
-	return Fingerprint(fingerprint), nil
+	return common.Fingerprint(fingerprint), nil
 }
 
 type FileInfoSlice []os.FileInfo

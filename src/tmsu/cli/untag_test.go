@@ -21,7 +21,7 @@ import (
 	"os"
 	"testing"
 	"time"
-	"tmsu/fingerprint"
+	"tmsu/common"
 	"tmsu/storage"
 )
 
@@ -37,7 +37,7 @@ func TestSingleUntag(test *testing.T) {
 	}
 	defer store.Close()
 
-	file, err := store.AddFile("/tmp/tmsu/a", fingerprint.Fingerprint("abc123"), time.Now(), 0, false)
+	file, err := store.AddFile("/tmp/tmsu/a", common.Fingerprint("abc123"), time.Now(), 0, false)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -94,7 +94,7 @@ func TestMultipleUntag(test *testing.T) {
 	}
 	defer store.Close()
 
-	file, err := store.AddFile("/tmp/tmsu/a", fingerprint.Fingerprint("abc123"), time.Now(), 0, false)
+	file, err := store.AddFile("/tmp/tmsu/a", common.Fingerprint("abc123"), time.Now(), 0, false)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -156,12 +156,12 @@ func TestUntagMultipleFiles(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileA, err := store.AddFile("/tmp/tmsu/a", fingerprint.Fingerprint("abc123"), time.Now(), 0, false)
+	fileA, err := store.AddFile("/tmp/tmsu/a", common.Fingerprint("abc123"), time.Now(), 0, false)
 	if err != nil {
 		test.Fatal(err)
 	}
 
-	fileB, err := store.AddFile("/tmp/tmsu/b", fingerprint.Fingerprint("abc123"), time.Now(), 0, false)
+	fileB, err := store.AddFile("/tmp/tmsu/b", common.Fingerprint("abc123"), time.Now(), 0, false)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -218,12 +218,12 @@ func TestUntagAll(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileA, err := store.AddFile("/tmp/tmsu/a", fingerprint.Fingerprint("abc123"), time.Now(), 0, false)
+	fileA, err := store.AddFile("/tmp/tmsu/a", common.Fingerprint("abc123"), time.Now(), 0, false)
 	if err != nil {
 		test.Fatal(err)
 	}
 
-	fileB, err := store.AddFile("/tmp/tmsu/b", fingerprint.Fingerprint("abc123"), time.Now(), 0, false)
+	fileB, err := store.AddFile("/tmp/tmsu/b", common.Fingerprint("abc123"), time.Now(), 0, false)
 	if err != nil {
 		test.Fatal(err)
 	}

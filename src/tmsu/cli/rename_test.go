@@ -21,7 +21,7 @@ import (
 	"os"
 	"testing"
 	"time"
-	"tmsu/fingerprint"
+	"tmsu/common"
 	"tmsu/storage"
 )
 
@@ -37,12 +37,12 @@ func TestRenameSuccessful(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileA, err := store.AddFile("/tmp/a", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileA, err := store.AddFile("/tmp/a", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
 
-	fileAB, err := store.AddFile("/tmp/a/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileAB, err := store.AddFile("/tmp/a/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}

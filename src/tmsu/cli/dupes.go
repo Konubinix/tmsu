@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"tmsu/entities"
+	"tmsu/common"
 	"tmsu/fingerprint"
 	"tmsu/log"
 	_path "tmsu/path"
@@ -120,7 +121,7 @@ func findDuplicatesOf(paths []string, recursive bool) error {
 			return fmt.Errorf("%v: could not create fingerprint: %v", path, err)
 		}
 
-		if fp == fingerprint.Fingerprint("") {
+		if fp == common.Fingerprint("") {
 			continue
 		}
 

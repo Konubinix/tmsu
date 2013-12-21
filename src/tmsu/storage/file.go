@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"time"
 	"tmsu/entities"
-	"tmsu/fingerprint"
+	"tmsu/common"
 	"tmsu/query"
 )
 
@@ -67,12 +67,12 @@ func (storage *Storage) FilesByDirectories(paths []string) (entities.Files, erro
 }
 
 // Retrieves the number of files with the specified fingerprint.
-func (storage *Storage) FileCountByFingerprint(fingerprint fingerprint.Fingerprint) (uint, error) {
+func (storage *Storage) FileCountByFingerprint(fingerprint common.Fingerprint) (uint, error) {
 	return storage.Db.FileCountByFingerprint(fingerprint)
 }
 
 // Retrieves the set of files with the specified fingerprint.
-func (storage *Storage) FilesByFingerprint(fingerprint fingerprint.Fingerprint) (entities.Files, error) {
+func (storage *Storage) FilesByFingerprint(fingerprint common.Fingerprint) (entities.Files, error) {
 	return storage.Db.FilesByFingerprint(fingerprint)
 }
 
@@ -124,12 +124,12 @@ func (storage *Storage) DuplicateFiles() ([]entities.Files, error) {
 }
 
 // Adds a file to the entities.
-func (storage *Storage) AddFile(path string, fingerprint fingerprint.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
+func (storage *Storage) AddFile(path string, fingerprint common.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
 	return storage.Db.InsertFile(path, fingerprint, modTime, size, isDir)
 }
 
 // Updates a file in the entities.
-func (storage *Storage) UpdateFile(fileId uint, path string, fingerprint fingerprint.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
+func (storage *Storage) UpdateFile(fileId uint, path string, fingerprint common.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
 	return storage.Db.UpdateFile(fileId, path, fingerprint, modTime, size, isDir)
 }
 

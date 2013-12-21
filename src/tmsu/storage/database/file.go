@@ -24,7 +24,7 @@ import (
 	"strconv"
 	"time"
 	"tmsu/entities"
-	"tmsu/fingerprint"
+	"tmsu/common"
 	"tmsu/query"
 )
 
@@ -107,7 +107,7 @@ func (db *Database) FilesByDirectory(path string) (entities.Files, error) {
 }
 
 // Retrieves the number of files with the specified fingerprint.
-func (db *Database) FileCountByFingerprint(fingerprint fingerprint.Fingerprint) (uint, error) {
+func (db *Database) FileCountByFingerprint(fingerprint common.Fingerprint) (uint, error) {
 	sql := `SELECT count(id)
             FROM file
             WHERE fingerprint = ?`
@@ -122,7 +122,7 @@ func (db *Database) FileCountByFingerprint(fingerprint fingerprint.Fingerprint) 
 }
 
 // Retrieves the set of files with the specified fingerprint.
-func (db *Database) FilesByFingerprint(fingerprint fingerprint.Fingerprint) (entities.Files, error) {
+func (db *Database) FilesByFingerprint(fingerprint common.Fingerprint) (entities.Files, error) {
 	sql := `SELECT id, directory, name, fingerprint, mod_time, size, is_dir
 	        FROM file
 	        WHERE fingerprint = ?
@@ -289,7 +289,7 @@ func (db *Database) DuplicateFiles() ([]entities.Files, error) {
 
 	fileSets := make([]entities.Files, 0, 10)
 	var fileSet entities.Files
-	var previousFingerprint fingerprint.Fingerprint
+	var previousFingerprint common.Fingerprint
 
 	for rows.Next() {
 		if rows.Err() != nil {
@@ -306,7 +306,7 @@ func (db *Database) DuplicateFiles() ([]entities.Files, error) {
 			return nil, err
 		}
 
-		fingerprint := fingerprint.Fingerprint(fp)
+		fingerprint := common.Fingerprint(fp)
 
 		if fingerprint != previousFingerprint {
 			if fileSet != nil {
@@ -328,7 +328,7 @@ func (db *Database) DuplicateFiles() ([]entities.Files, error) {
 }
 
 // Adds a file to the database.
-func (db *Database) InsertFile(path string, fingerprint fingerprint.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
+func (db *Database) InsertFile(path string, fingerprint common.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
 	directory := filepath.Dir(path)
 	name := filepath.Base(path)
 
@@ -357,7 +357,7 @@ func (db *Database) InsertFile(path string, fingerprint fingerprint.Fingerprint,
 }
 
 // Updates a file in the database.
-func (db *Database) UpdateFile(fileId uint, path string, fingerprint fingerprint.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
+func (db *Database) UpdateFile(fileId uint, path string, fingerprint common.Fingerprint, modTime time.Time, size int64, isDir bool) (*entities.File, error) {
 	directory := filepath.Dir(path)
 	name := filepath.Base(path)
 
@@ -430,7 +430,7 @@ func readFile(rows *sql.Rows) (*entities.File, error) {
 		return nil, err
 	}
 
-	return &entities.File{fileId, directory, name, fingerprint.Fingerprint(fp), modTime, size, isDir}, nil
+	return &entities.File{fileId, directory, name, common.Fingerprint(fp), modTime, size, isDir}, nil
 }
 
 func readFiles(rows *sql.Rows, files entities.Files) (entities.Files, error) {

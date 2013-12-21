@@ -22,7 +22,7 @@ import (
 	"os"
 	"testing"
 	"time"
-	"tmsu/fingerprint"
+	"tmsu/common"
 	"tmsu/storage"
 )
 
@@ -44,15 +44,15 @@ func TestFilesAll(test *testing.T) {
 	}
 	defer store.Close()
 
-	_, err = store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	_, err = store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	_, err = store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	_, err = store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	_, err = store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	_, err = store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -89,15 +89,15 @@ func TestFilesSingleTag(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileBA, err := store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileBA, err := store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -153,15 +153,15 @@ func TestFilesNotSingleTag(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileBA, err := store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileBA, err := store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -216,15 +216,15 @@ func TestFilesImplicitAnd(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileBA, err := store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileBA, err := store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -287,15 +287,15 @@ func TestFilesAnd(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileBA, err := store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileBA, err := store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -358,15 +358,15 @@ func TestFilesImplicitAndNot(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileBA, err := store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileBA, err := store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -429,15 +429,15 @@ func TestFilesAndNot(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileBA, err := store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileBA, err := store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}
@@ -500,15 +500,15 @@ func TestFilesOr(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileBA, err := store.AddFile("/tmp/b/a", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileBA, err := store.AddFile("/tmp/b/a", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, true)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, true)
 	if err != nil {
 		test.Fatal(err)
 	}

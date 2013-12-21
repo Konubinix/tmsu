@@ -37,17 +37,17 @@ func TestDeleteSuccessful(test *testing.T) {
 	}
 	defer store.Close()
 
-	fileD, err := store.AddFile("/tmp/d", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileD, err := store.AddFile("/tmp/d", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
 
-	fileF, err := store.AddFile("/tmp/f", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileF, err := store.AddFile("/tmp/f", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
 
-	fileB, err := store.AddFile("/tmp/b", fingerprint.Fingerprint("abc"), time.Now(), 123, false)
+	fileB, err := store.AddFile("/tmp/b", common.Fingerprint("abc"), time.Now(), 123, false)
 	if err != nil {
 		test.Fatal(err)
 	}
