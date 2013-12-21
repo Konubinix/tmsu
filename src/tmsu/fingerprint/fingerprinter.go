@@ -38,8 +38,22 @@ const EMPTY common.Fingerprint = common.Fingerprint("")
 const sparseFingerprintThreshold = 5 * 1024 * 1024
 const sparseFingerprintSize = 512 * 1024
 
-func Create(_path string) (Fingerprint, error) {
-	res, err := CreateExternal(_path)
+func Create(_path string) (common.Fingerprint, error) {
+	var config common.DBConfig
+	var res common.Fingerprint
+	store, err := storage.Open()
+	if err != nil {
+ 		log.Fatalf("Something wrong happened: %v", err)
+	}
+	config, err = store.Db.DBConfigGetConfig()
+	if err != nil {
+ 		log.Fatalf("Something wrong happened: %v", err)
+	}
+	if config.FingerPrintCommand != "" {
+		res, err = CreateExternal(_path, config.FingerPrintCommand)
+	} else {
+		res, err = CreateInternal(_path)
+	}
 	return res, err
 }
 
