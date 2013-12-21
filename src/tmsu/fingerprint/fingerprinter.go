@@ -62,7 +62,6 @@ func CreateExternal(path string, command string) (common.Fingerprint, error) {
 	in, _ := cmd.StdinPipe()
 	out, _ := cmd.StdoutPipe()
 	err := cmd.Start()
-	fmt.Println("test")
 	if err != nil {
 		log.Fatal(err)
 	}
