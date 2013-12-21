@@ -27,13 +27,13 @@ func (db *Database) DBConfigSetConfig(config common.DBConfig) () {
 	sql = `delete from dbconfig`
 	_, err := db.connection.Exec(sql)
 	if err != nil {
-		log.Fatalf("Something went wrong: %v", err)
+		log.Infof(2, "Something went wrong when removing the previous info: %v", err)
 	}
 
 	sql = fmt.Sprintf(`insert into dbconfig values ('%v');`, config.FingerPrintCommand)
 	_, err = db.connection.Exec(sql)
 	if err != nil {
-		log.Fatalf("Something went wrong: %v", err)
+		log.Fatalf("Something went wrong when inserting the dbconfig info: %v", err)
 	}
 	return
 }
