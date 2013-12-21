@@ -11,7 +11,7 @@ func (db *Database) DBConfigGetConfig() (common.DBConfig, error) {
 
 	rows, err := db.connection.Query(sql)
 	if err != nil {
-		log.Fatalf("Failed to get information from the database: %v", err)
+		return common.DBConfig{""}, nil
 	}
 	defer rows.Close()
 	var fingerPrintCommand string
